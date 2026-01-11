@@ -19,6 +19,20 @@ Pas besoin d'être un expert en informatique pour commencer à créer.
 - **Sur Windows** : Téléchargez le dossier, et double-cliquez sur `run.bat`. C'est tout.
 - **Sur Mac/Linux** : Ouvrez un terminal dans le dossier et tapez `./run.sh`.
 
+### 🎯 Sélection de Source Intelligente
+
+Un sélecteur en grille haute définition vous permet de choisir instantanément entre vos écrans complets ou des fenêtres spécifiques avec un aperçu en temps réel.
+
+---
+
+## 🖼️ Galerie de Présentation
+
+|              Interface HUD              |                Mixage Audio                |               Sélecteur de Source                |
+| :-------------------------------------: | :----------------------------------------: | :----------------------------------------------: |
+| ![HUD](./public/assets/hud_preview.png) | ![Audio](./public/assets/audio_mixing.png) | ![Selector](./public/assets/source_selector.png) |
+
+---
+
 ### 2. Comment enregistrer ?
 
 1.  **Choisissez votre source** : Cliquez sur "Select Source" et choisissez votre écran ou une fenêtre.
