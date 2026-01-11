@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Screenflow Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --accent: #6366f1;
+        --accent-glow: rgba(99, 102, 241, 0.4);
+        --bg: #0a0a0c;
+        --panel: rgba(255, 255, 255, 0.05);
+        --border: rgba(255, 255, 255, 0.1);
+      }
+
+      body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: white;
+        overflow: hidden;
+        -webkit-user-select: none;
+      }
+
+      /* Global Background Gradients */
+      .bg-glow {
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                    radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 40%);
+        z-index: -1;
+      }
+
+      .title-bar {
+        height: 38px;
+        background: rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        -webkit-app-region: drag;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(10px);
+      }
+
+      .title {
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .title span { color: var(--accent); }
+
+      .window-controls {
+        -webkit-app-region: no-drag;
+        display: flex;
+        gap: 10px;
+      }
+
+      .control-btn {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+      }
+
+      .control-btn:hover { opacity: 1; }
+      .close { background: #ff5f57; }
+      .minimize { background: #ffbd2e; }
+
+      .main-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        height: calc(100% - 38px);
+      }
+
+      /* Sidebar */
+      .sidebar {
+        background: rgba(0, 0, 0, 0.3);
+        border-right: 1px solid var(--border);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .sidebar-title {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #666;
+        letter-spacing: 1px;
+      }
+
+      .history-list {
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .history-item {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        display: flex;
+        gap: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .history-item:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--accent);
+      }
+
+      .history-thumb {
+        width: 80px;
+        height: 45px;
+        background: #000;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .history-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+      }
+
+      .history-name { font-size: 12px; font-weight: 600; }
+      .history-meta { font-size: 10px; color: #666; }
+
+      /* Main Content */
+      .content {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        position: relative;
+      }
+
+      .preview-container {
+        flex: 1;
+        background: #000;
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border);
+      }
+
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .overlay-rec {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 8px 16px;
+        border-radius: 20px;
+        color: #ff5f57;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 95, 87, 0.3);
+      }
+
+      .overlay-rec .dot {
+        width: 8px;
+        height: 8px;
+        background: #ff5f57;
+        border-radius: 50%;
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+        0% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.5; transform: scale(1.2); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+
+      .timer-val { color: white; font-family: 'Courier New', monospace; margin-left: 4px; }
+
+      /* Bottom Controls */
+      .control-bar {
+        background: rgba(15, 15, 20, 0.8);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 16px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        backdrop-filter: blur(20px);
+      }
+
+      .settings-group {
+        display: flex;
+        gap: 24px;
+      }
+
+      .toggle-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13px;
+        color: #aaa;
+        cursor: pointer;
+      }
+
+      .toggle-box span { transition: color 0.2s; }
+      .toggle-box:hover span { color: #fff; }
+
+      .switch {
+        position: relative;
+        width: 36px;
+        height: 18px;
+        background: #333;
+        border-radius: 20px;
+        transition: 0.3s;
+      }
+
+      .checkbox { display: none; }
+      .checkbox:checked + .switch { background: var(--accent); }
+      .checkbox:checked + .switch::after { transform: translateX(18px); }
+      .switch::after {
+        content: "";
+        position: absolute;
+        top: 2px; left: 2px;
+        width: 14px; height: 14px;
+        background: white;
+        border-radius: 50%;
+        transition: 0.3s;
+      }
+
+      .main-actions {
+        display: flex;
+        gap: 16px;
+      }
+
+      .btn {
+        padding: 12px 28px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: white;
+        box-shadow: 0 4px 15px var(--accent-glow);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px var(--accent-glow);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, #ef4444, #f87171);
+        color: white;
+        box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+      }
+
+      .btn-secondary {
+        background: var(--panel);
+        color: #eee;
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); }
+
+      /* Source List Grid Overlay */
+      #sourceList {
+        position: absolute;
+        top: 20px; left: 20px; right: 20px; bottom: 80px;
+        background: rgba(10, 10, 12, 0.95);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        overflow-y: auto;
+        z-index: 1000;
+        backdrop-filter: blur(20px);
+        display: none;
+      }
+
+      .source-card {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 12px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+
+      .source-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-4px);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .source-card img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 12px;
+      }
+
+      .source-card .name {
+        font-size: 13px;
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: block;
+      }
+
+      .hidden { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <div class="bg-glow"></div>
+    
+    <div class="title-bar">
+      <div class="title">SCREENFLOW <span>PRO</span></div>
+      <div class="window-controls">
+        <button class="control-btn minimize" id="minimizeBtn"></button>
+        <button class="control-btn close" id="closeBtn"></button>
+      </div>
+    </div>
+
+    <div class="main-layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-title">Recording History</div>
+        <div class="history-list" id="historyList">
+          <div class="history-item">
+            <div class="history-thumb"></div>
+            <div class="history-info">
+              <div class="history-name">Tutorial_Intro.webm</div>
+              <div class="history-meta">14:30 • 12.5 MB</div>
+            </div>
+          </div>
+          <div class="history-item">
+            <div class="history-thumb"></div>
+            <div class="history-info">
+              <div class="history-name">Gaming_Session.webm</div>
+              <div class="history-meta">10:15 • 85.2 MB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="content">
+        <div class="preview-container">
+          <video id="preview" autoplay muted></video>
+          
+          <!-- Source List Overlay -->
+          <div id="sourceList"></div>
+
+          <!-- Recording Status -->
+          <div id="recordingStatus" class="overlay-rec hidden">
+            <div class="dot"></div>
+            REC <span id="timerDisplay" class="timer-val">00:00:00</span>
+          </div>
+        </div>
+
+        <!-- Bottom Controls -->
+        <div class="control-bar">
+          <div class="settings-group">
+            <label class="toggle-box">
+              <input type="checkbox" id="micToggle" class="checkbox" />
+              <div class="switch"></div>
+              <span>Microphone</span>
+            </label>
+            <label class="toggle-box">
+              <input type="checkbox" id="audioToggle" class="checkbox" checked />
+              <div class="switch"></div>
+              <span>System Audio</span>
+            </label>
+          </div>
+
+          <div class="main-actions">
+            <button class="btn btn-secondary" id="sourceSelectBtn">
+              Select Source <span id="sourceSelectLabel" style="opacity: 0.5; margin-left: 5px;"></span>
+            </button>
+            <button class="btn btn-primary" id="startBtn">
+              <span>Start</span>
+            </button>
+            <button class="btn btn-danger hidden" id="stopBtn">
+              <span>Stop</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./dist/renderer.js" type="module"></script>
+  </body>
+</html>

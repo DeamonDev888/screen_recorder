@@ -1,0 +1,23 @@
+{
+  "name": "pro-screen-recorder",
+  "version": "1.0.0",
+  "description": "Professional Screen Recorder Application",
+  "main": "dist/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "build": "tsc",
+    "watch": "tsc -w",
+    "dev": "npm run build && electron ."
+  },
+  "author": "Antigravity",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/electron": "^1.6.12",
+    "@types/electron-devtools-installer": "^4.0.0",
+    "@types/node": "^25.0.6",
+    "electron": "^39.2.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

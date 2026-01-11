@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+*.log
+recording-*.webm
+enregistrement.avi
+legacy_src/
+.env
+package-lock.json
+pnpm-lock.yaml
