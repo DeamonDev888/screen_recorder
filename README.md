@@ -1,6 +1,6 @@
 # 🎥 SCREENFLOW PRO : L'Élite de l'Enregistrement Écran
 
-![Screenflow Pro Hero](./assets/hero_design.png)
+![Screenflow Pro Hero](./public/assets/hero_design.png)
 
 ## 💎 Valorisé à 30$/mois... Aujourd'hui GRATUIT (Beta Publique)
 
@@ -69,7 +69,7 @@ pnpm run dev
 
 ## 📁 Structure du Projet
 
-- `assets/` : Les visuels premium.
+- `public/assets/` : Les visuels premium.
 - `src/` : Le moteur ultra-puissant en TypeScript.
 - `run.bat` : Votre télécommande magique pour Windows.
 

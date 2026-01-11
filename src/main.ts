@@ -2,6 +2,7 @@ import { app, BrowserWindow, ipcMain, desktopCapturer, dialog } from 'electron';
 import path from 'path';
 import fs from 'fs/promises';
 import { fileURLToPath } from 'url';
+import { globalShortcut } from 'electron';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +20,7 @@ const createWindow = () => {
     }
   });
 
-  win.loadFile(path.join(__dirname, '../index.html'));
+  win.loadFile(path.join(__dirname, '../public/index.html'));
 };
 
 app.whenReady().then(() => {
@@ -57,6 +58,24 @@ app.whenReady().then(() => {
     const win = BrowserWindow.fromWebContents(event.sender);
     win?.close();
   });
+
+  // Global Shortcuts Management
+  ipcMain.on('register-shortcuts', (event) => {
+    globalShortcut.register('CommandOrControl+Shift+R', () => {
+      event.sender.send('shortcut-start');
+    });
+    globalShortcut.register('CommandOrControl+Shift+S', () => {
+      event.sender.send('shortcut-stop');
+    });
+  });
+
+  ipcMain.on('unregister-shortcuts', () => {
+    globalShortcut.unregisterAll();
+  });
+});
+
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll();
 });
 
 app.on('window-all-closed', () => {

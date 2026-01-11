@@ -8,15 +8,32 @@
     "start": "electron .",
     "build": "tsc",
     "watch": "tsc -w",
-    "dev": "npm run build && electron ."
+    "dev": "npm run build && electron .",
+    "package": "npm run build && electron-builder build --win --publish never"
+  },
+  "build": {
+    "appId": "com.screenflow.pro",
+    "productName": "ScreenflowPro",
+    "directories": {
+      "output": "dist/installers"
+    },
+    "files": [
+      "dist/**/*",
+      "public/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "assets/hero_design.png"
+    }
   },
   "author": "Antigravity",
   "license": "ISC",
   "devDependencies": {
     "@types/electron": "^1.6.12",
-    "@types/electron-devtools-installer": "^4.0.0",
     "@types/node": "^25.0.6",
     "electron": "^39.2.7",
+    "electron-builder": "^26.4.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

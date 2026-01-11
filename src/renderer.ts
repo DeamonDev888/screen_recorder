@@ -3,6 +3,10 @@ interface ElectronAPI {
     saveVideo: (buffer: ArrayBuffer) => Promise<any>;
     minimize: () => void;
     close: () => void;
+    registerShortcuts: () => void;
+    unregisterShortcuts: () => void;
+    onShortcutStart: (callback: () => void) => void;
+    onShortcutStop: (callback: () => void) => void;
 }
 
 declare global {
@@ -21,11 +25,16 @@ const audioToggle = document.getElementById('audioToggle') as HTMLInputElement;
 const recordingStatus = document.getElementById('recordingStatus') as HTMLDivElement;
 const timerDisplay = document.getElementById('timerDisplay') as HTMLSpanElement;
 const sourceList = document.getElementById('sourceList') as HTMLDivElement;
+const micVolumeSlider = document.getElementById('micVolume') as HTMLInputElement;
+const sysVolumeSlider = document.getElementById('sysVolume') as HTMLInputElement;
 
 let mediaRecorder: MediaRecorder | null = null;
 let recordedChunks: Blob[] = [];
 let timerInterval: any = null;
 let startTime: number = 0;
+let audioContext: AudioContext | null = null;
+let desktopGainNode: GainNode | null = null;
+let micGainNode: GainNode | null = null;
 
 // Setup Window Controls
 document.getElementById('minimizeBtn')?.addEventListener('click', () => {
@@ -35,6 +44,21 @@ document.getElementById('minimizeBtn')?.addEventListener('click', () => {
 document.getElementById('closeBtn')?.addEventListener('click', () => {
     window.electronAPI.close();
 });
+
+// Shortcut Listeners
+window.electronAPI.onShortcutStart(() => {
+    if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+        startBtn.click();
+    }
+});
+
+window.electronAPI.onShortcutStop(() => {
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+        stopBtn.click();
+    }
+});
+
+window.electronAPI.registerShortcuts();
 
 // Get Sources
 async function getSources() {
@@ -119,21 +143,36 @@ async function selectSource(sourceId: string, name: string) {
 }
 
 function mixAudioTracks(desktopStream: MediaStream, micStream: MediaStream): MediaStreamTrack[] {
-    const ctx = new AudioContext();
-    const dest = ctx.createMediaStreamDestination();
+    audioContext = new AudioContext();
+    const dest = audioContext.createMediaStreamDestination();
 
     if (desktopStream.getAudioTracks().length > 0) {
-        const desktopSource = ctx.createMediaStreamSource(desktopStream);
-        desktopSource.connect(dest);
+        const desktopSource = audioContext.createMediaStreamSource(desktopStream);
+        desktopGainNode = audioContext.createGain();
+        desktopGainNode.gain.value = parseFloat(sysVolumeSlider.value);
+        desktopSource.connect(desktopGainNode);
+        desktopGainNode.connect(dest);
     }
 
     if (micStream.getAudioTracks().length > 0) {
-        const micSource = ctx.createMediaStreamSource(micStream);
-        micSource.connect(dest);
+        const micSource = audioContext.createMediaStreamSource(micStream);
+        micGainNode = audioContext.createGain();
+        micGainNode.gain.value = parseFloat(micVolumeSlider.value);
+        micSource.connect(micGainNode);
+        micGainNode.connect(dest);
     }
 
     return dest.stream.getAudioTracks();
 }
+
+// Volume slider listeners
+micVolumeSlider.oninput = () => {
+    if (micGainNode) micGainNode.gain.value = parseFloat(micVolumeSlider.value);
+};
+
+sysVolumeSlider.oninput = () => {
+    if (desktopGainNode) desktopGainNode.gain.value = parseFloat(sysVolumeSlider.value);
+};
 
 function setupRecorder(stream: MediaStream) {
     const options = { mimeType: 'video/webm; codecs=vp9' };
