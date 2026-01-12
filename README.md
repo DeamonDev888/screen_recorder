@@ -48,8 +48,6 @@ L'outil d'enregistrement d'écran professionnel pour Windows.
 
 ### Interface Principale
 
-![Interface Principale](public/assets/defaut.png)
-
 **Composants de l'interface :**
 
 - **Barre de titre** personnalisée avec menus File, View, Help
