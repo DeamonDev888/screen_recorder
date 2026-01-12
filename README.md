@@ -1,99 +1,313 @@
-# 🎥 SCREENFLOW PRO : L'Élite de l'Enregistrement Écran
+# 🎥 SCREENFLOW PRO
 
-![Screenflow Pro Hero](./public/assets/hero_design.png)
+L'outil d'enregistrement d'écran professionnel pour Windows.
 
-## 💎 Valorisé à 30$/mois... Aujourd'hui GRATUIT (Beta Publique)
-
-**Screenflow Pro** transforme votre ordinateur en studio de production. Conçu pour ceux qui exigent la perfection, il combine un design futuriste et une puissance de capture inégalée.
-
-Actuellement en phase **Beta**, toutes les fonctionnalités Premium sont **accessibles gratuitement**. Profitez-en avant le lancement officiel de l'abonnement à 30$/mois !
+![Interface](public/assets/defaut.png)
 
 ---
 
-## 🚀 Guide Rapide (Noob-Friendly)
+## ✨ Fonctionnalités
 
-Pas besoin d'être un expert en informatique pour commencer à créer.
+### 🎬 Enregistrement d'Écran
 
-### 1. Installation (En 1 clic)
+- **Capture d'écran complet** ou de fenêtres spécifiques
+- **Sélecteur visuel** avec aperçus en temps réel
+- **Format WebM** avec codec VP9 (haute qualité)
+- **Enregistrement audio** du système et/ou du micro
 
-- **Sur Windows** : Téléchargez le dossier, et double-cliquez sur `run.bat`. C'est tout.
-- **Sur Mac/Linux** : Ouvrez un terminal dans le dossier et tapez `./run.sh`.
+### 🎙️ Mixage Audio
 
-### 🎯 Sélection de Source Intelligente
+- **Contrôles indépendants** pour le micro et le son système
+- **Sliders de volume** en temps réel
+- **Mixage intelligent** via Web Audio API
+- **Mute automatique** de l'aperçu (pas de feedback)
 
-Un sélecteur en grille haute définition vous permet de choisir instantanément entre vos écrans complets ou des fenêtres spécifiques avec un aperçu en temps réel.
+### 📁 Bibliothèque Intégrée
 
----
+- **Miniatures automatiques** pour chaque enregistrement
+- **Gestion contextuelle** : Open, Rename, Show in Explorer, Copy Path, Delete
+- **Métadonnées** : taille, date de modification
+- **Aperçus visuels** des vidéos
 
-## 🖼️ Galerie de Présentation
+### ⌨️ Raccourcis Clavier
 
-|              Interface HUD              |                Mixage Audio                |               Sélecteur de Source                |
-| :-------------------------------------: | :----------------------------------------: | :----------------------------------------------: |
-| ![HUD](./public/assets/hud_preview.png) | ![Audio](./public/assets/audio_mixing.png) | ![Selector](./public/assets/source_selector.png) |
+- **Ctrl+Shift+R** : Démarrer/Arrêter l'enregistrement
+- **Ctrl+B** : Afficher/Masquer la barre latérale
+- **F11** : Plein écran
 
----
+### 🔄 Conversion Vidéo
 
-### 2. Comment enregistrer ?
-
-1.  **Choisissez votre source** : Cliquez sur "Select Source" et choisissez votre écran ou une fenêtre.
-2.  **Réglez le son** : Utilisez les sliders pour ajuster le volume du micro et du système.
-3.  **Action !** : Appuyez sur le bouton **Start** (ou utilisez le raccourci magique `Ctrl + Shift + R`).
-4.  **Terminé** : Appuyez sur **Stop** (ou `Ctrl + Shift + S`). Une fenêtre s'ouvrira pour enregistrer votre chef-d'œuvre.
-
----
-
-## ✨ Les Fonctionnalités qui font la différence
-
-### 🛸 Design "Glassmorphism"
-
-Une interface transparente et élégante qui ne gâche pas votre bureau. C'est beau, c'est fluide, c'est pro.
-
-### 🎙️ Mixage Audio de Studio
-
-Marre des vidéos où on n'entend pas votre voix ? Avec nos sliders de **Gain en Direct**, mixez votre micro et le son de votre PC comme un ingénieur du son.
-
-### ⌨️ Commandes "Ninja" (Raccourcis)
-
-Plus besoin de chercher la fenêtre de l'app pour arrêter l'enregistrement :
-
-- `Ctrl + Shift + R` pour **Démarrer** 🔴
-- `Ctrl + Shift + S` pour **Arrêter** ⬛
+- **Formats supportés** : MP4, WebM, GIF
+- **Optimisations GIF** : Taille réduite et framerate adapté
+- **Génération automatique** de nouvelles miniatures après conversion
+- **Smart Renaming** : Évite d'écraser les fichiers existants
 
 ---
 
-## 🛠️ Installation pour les Développeurs
+## 🖼️ Aperçu de l'Interface
 
-Si vous voulez cloner le projet et le modifier :
+### Interface Principale
+
+![Interface Principale](public/assets/defaut.png)
+
+**Composants de l'interface :**
+
+- **Barre de titre** personnalisée avec menus File, View, Help
+- **Barre latérale** (Library) avec historique des enregistrements
+- **Zone de preview** avec aperçu vidéo en temps réel
+- **Barre de contrôle** avec paramètres audio et boutons d'enregistrement
+- **Sélecteur de source** avec grille visuelle
+
+### Sélection de Source
+
+![Sélection de Source](public/assets/screen_selection%20.png)
+
+Le sélecteur de source affiche :
+
+- **Tous les écrans** disponibles
+- **Toutes les fenêtres** ouvertes
+- **Miniatures en temps réel** de chaque source
+- **Grille responsive** pour facile navigation
+
+### Conversion de Format
+
+![Conversion de Format](public/assets/convert.png)
+
+La conversion permet de :
+
+- Transformer vos **WebM** en **MP4** compatibles partout
+- Créer des **GIFs animés** pour les réseaux sociaux
+- Garder la trace de la conversion avec les miniatures mises à jour
+
+---
+
+## 🚀 Installation
+
+### Prérequis
+
+- Windows 10/11
+- Node.js 18+ (pour le développement)
+
+### Installation rapide
 
 ```bash
-# Cloner le projet
-git clone https://github.com/DeamonDev888/screen_recorder.git
+# Cloner le repository
+git clone https://github.com/votre-repo/screen-recorder.git
+cd screen-recorder
 
-# Entrer dans le dossier
-cd screen_recorder
+# Installer les dépendances
+npm install
 
-# Installer les outils
-pnpm install
+# Compiler le projet
+npm run build
 
-# Lancer la magie
-pnpm run dev
+# Lancer l'application
+npm start
+```
+
+### Scripts disponibles
+
+```bash
+npm start          # Lancer l'application
+npm run build      # Compiler TypeScript
+npm run watch      # Mode développement avec recompilation auto
+npm start:clean   # Lancer sans les erreurs WGC (logs filtrés)
+npm run thumbnails # Régénérer les thumbnails manuellement
 ```
 
 ---
 
-## 📁 Structure du Projet
+## 📖 Guide d'Utilisation
 
-- `public/assets/` : Les visuels premium.
-- `src/` : Le moteur ultra-puissant en TypeScript.
-- `run.bat` : Votre télécommande magique pour Windows.
+### 1. Sélectionner une Source
+
+Cliquez sur **"Select Source"** et choisissez :
+
+- Un écran complet
+- Une fenêtre spécifique
+- Un onglet de navigateur
+
+### 2. Configurer l'Audio
+
+Dans la barre de contrôle :
+
+- **Mic** : Activer/Désactiver l'enregistrement du micro
+- **Audio** : Activer/Désactiver le son système
+- **Sliders** : Ajuster le volume de chaque source
+
+### 3. Enregistrer
+
+- Cliquez sur **"Record"** (ou **Ctrl+Shift+R**)
+- Le bouton devient **"Stop"** (rouge)
+- Un compteur s'affiche en temps réel
+- Cliquez sur **"Stop"** pour terminer
+
+### 4. Sauvegarder
+
+La boîte de dialogue de sauvegarde s'ouvre automatiquement :
+
+- Choisissez le nom et l'emplacement
+- Cliquez sur **"Save Recording"**
+- La miniature est générée automatiquement
+
+### 5. Gérer les Enregistrements
+
+Dans la bibliothèque (barre latérale) :
+
+**Clic droit sur une vidéo pour :**
+
+- **Open** : Ouvrir la vidéo
+- **Rename** : Renommer le fichier
+- **Show in Explorer** : Afficher dans l'explorateur de fichiers
+- **Copy Path** : Copier le chemin du fichier
+- **Delete** : Supprimer (déplace vers la corbeille)
 
 ---
 
-## 📜 Licence
+## 🛠️ Développement
 
-Projet fier d'être sous licence **MIT**. Gratuit, ouvert et puissant.
+### Structure du Projet
+
+```
+screen_recorder/
+├── public/
+│   ├── index.html          # Interface utilisateur
+│   └── assets/             # Images et icônes
+├── src/
+│   ├── main.ts            # Processus principal (Electron)
+│   ├── preload.cts        # Pont IPC sécurisé
+│   └── renderer.ts        # Processus de rendu
+├── Library/                # Enregistrements sauvegardés
+└── dist/                   # Code JavaScript compilé
+```
+
+### Technologies Utilisées
+
+- **Electron 33** - Framework d'application desktop
+- **TypeScript 5** - Typage statique
+- **Web Audio API** - Mixage audio en temps réel
+- **MediaRecorder API** - Capture vidéo
+- **Canvas API** - Génération de thumbnails
 
 ---
 
-**Rejoignez l'élite des créateurs. Le futur de l'enregistrement commence ici.** 🚀
-[Visitez le GitHub](https://github.com/DeamonDev888/screen_recorder.git)
+## 🎨 Personnalisation
+
+### Modifier les couleurs
+
+Dans `public/index.html`, modifiez les variables CSS :
+
+```css
+:root {
+  --accent: #7c3aed; /* Violet principal */
+  --accent-light: #a78bfa; /* Violet clair */
+  --bg: #030305; /* Fond principal */
+}
+```
+
+### Modifier la taille de la fenêtre
+
+Dans `src/main.ts` :
+
+```typescript
+const win = new BrowserWindow({
+  width: 1100, // Largeur
+  height: 780, // Hauteur
+  // ...
+});
+```
+
+---
+
+## 🐛 Résolution de Problèmes
+
+### Erreurs WGC dans la console
+
+Si vous voyez des erreurs `ProcessFrame failed: -2147467259` :
+
+**C'est normal !** Ces erreurs sont :
+
+- ✅ **Harmless** - L'enregistrement fonctionne parfaitement
+- ✅ **Cosmétiques** - Juste des messages de log
+- ✅ **Connues** - Bug de Chromium/Electron sur Windows 10/11
+
+**Pour masquer ces erreurs**, utilisez :
+
+```bash
+npm run start:clean
+```
+
+Voir [WGC_ERRORS.md](WGC_ERRORS.md) pour plus de détails.
+
+### Thumbnails manquants
+
+Si les thumbnails ne s'affichent pas (fond violet avec icône) :
+
+1. **Régénérer les thumbnails :**
+
+   ```bash
+   npm run thumbnails
+   ```
+
+2. **Faire un nouvel enregistrement** pour tester la génération automatique
+
+3. **Vérifier que la preview** est visible avant d'arrêter l'enregistrement
+
+---
+
+## 📝 Notes Techniques
+
+### Performance
+
+- **Taux d'échantillonnage** : 30 FPS (configurable)
+- **Résolution maximale** : 1920x1080 (configurable)
+- **Codec vidéo** : VP9 (WebM)
+- **Qualité thumbnail** : JPEG 80%, 320x180 pixels
+
+### Sécurité
+
+- **Context Isolation** activé (isole le renderer de Node.js)
+- **Sandbox** désactivé (nécessaire pour desktopCapturer)
+- **Node Integration** désactivé dans le renderer
+- **Opérations de fichiers** via IPC uniquement (main process)
+
+### Compatibilité
+
+- **Windows 10/11** ✅
+- **macOS** 🔄 (partiellement testé)
+- **Linux** 🔄 (partiellement testé)
+
+---
+
+## 📄 Licence
+
+Projet sous licence **MIT**.
+
+Libre d'utilisation, de modification et de distribution.
+
+---
+
+## 🤝 Contribution
+
+Les contributions sont les bienvenues !
+
+1. Fork le projet
+2. Créer une branche (`git checkout -b feature/AmazingFeature`)
+3. Commit les changements (`git commit -m 'Add AmazingFeature'`)
+4. Push vers la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
+
+---
+
+## 📧 Support
+
+Pour questions, bugs ou suggestions :
+
+- **Issues** : [GitHub Issues](https://github.com/votre-repo/screen-recorder/issues)
+- **Discussions** : [GitHub Discussions](https://github.com/votre-repo/screen-recorder/discussions)
+
+---
+
+**Développé avec ❤️ en utilisant Electron & TypeScript**
+
+![Screenflow Pro](public/assets/icon.png)

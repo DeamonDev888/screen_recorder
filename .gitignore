@@ -8,3 +8,7 @@ legacy_src/
 .env
 package-lock.json
 pnpm-lock.yaml
+Library/*
+!Library/Tutorial_Sample.mp4
+.claude/
+.mcp.json

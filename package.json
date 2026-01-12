@@ -6,10 +6,12 @@
   "type": "module",
   "scripts": {
     "start": "electron .",
+    "start:clean": "electron . 2>&1 | findstr /V /C:\"wgc_capture_session\" /C:\"ProcessFrame failed\" /C:\"ERROR:wgc\"",
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "npm run build && electron .",
-    "package": "npm run build && electron-builder build --win --publish never"
+    "package": "npm run build && electron-builder build --win --publish never",
+    "thumbnails": "node generate-thumbnails.cjs"
   },
   "build": {
     "appId": "com.screenflow.pro",
@@ -24,17 +26,23 @@
     ],
     "win": {
       "target": "portable",
-      "icon": "assets/hero_design.png"
+      "icon": "public/assets/icon.png"
     }
   },
   "author": "Antigravity",
   "license": "ISC",
   "devDependencies": {
     "@types/electron": "^1.6.12",
-    "@types/node": "^25.0.6",
-    "electron": "^39.2.7",
-    "electron-builder": "^26.4.0",
+    "@types/node": "^20.11.0",
+    "canvas": "^3.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^33.0.0",
+    "electron-builder": "^24.13.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.3.0",
+    "fluent-ffmpeg": "^2.1.3"
   }
 }
