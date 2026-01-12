@@ -630,7 +630,6 @@ async function renderLibrary() {
             // Right Click > Share = Drag to OS (implemented via menu or button)
             
             item.onclick = () => playVideo(file.path);
-            item.ondblclick = () => window.electronAPI.openFile(file.path);
             item.oncontextmenu = (e) => {
                 e.preventDefault();
                 showContextMenu(e, item);
